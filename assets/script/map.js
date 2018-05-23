@@ -7,16 +7,16 @@ function defaultLocation() {
   // If user premits use of geolocation, the map will be centered based on that, otherwise map will be rendered with default values.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-        function(position) {
-          lat = position.coords.latitude;
-          lng = position.coords.longitude;
-          zoom = 12; // Applies higher zoom if user allows geolocations for a more relavent view to the user.
-          drawMap();
-        },
+      function(position) {
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+        zoom = 13; // Applies higher zoom if user allows geolocations for a more relavent view to the user.
+        drawMap();
+      },
 
-        function() {
-          drawMap();
-        }
+      function() {
+        drawMap();
+      }
     );
   } else {
     drawMap();
@@ -35,7 +35,6 @@ function drawMap() {
   var input = document.getElementById('pac-input');
   var searchBox = new google.maps.places.SearchBox(input);
 
-  // Bias the SearchBox results towards current map's viewport.
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
   });
@@ -87,5 +86,6 @@ function drawMap() {
       }
     });
     map.fitBounds(bounds);
+    map.setZoom(13);
   });
 }

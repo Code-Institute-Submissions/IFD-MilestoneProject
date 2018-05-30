@@ -7,3 +7,7 @@ $(window).resize(function() {
     $('#toolbar').addClass('btn-group');
   }
 });
+
+function toolbarReset() {
+  $('.toolbar-button').removeClass('active');
+}

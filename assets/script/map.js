@@ -1,3 +1,13 @@
+var map;
+
+var poi = document.getElementById('poi');
+var accommodations = document.getElementById('accommodations');
+var dining = document.getElementById('dining');
+
+var poiMarkers = [];
+var accommodationsMarkers = [];
+var diningMarkers = [];
+
 //Default center position (London)
 var lat = 51.508742;
 var lng = -0.120850;
@@ -28,7 +38,7 @@ function drawMap() {
     center: new google.maps.LatLng(lat, lng),
     zoom: zoom,
   };
-  var map = new google.maps.Map(document.getElementById("map"), mapProp);
+  map = new google.maps.Map(document.getElementById("map"), mapProp);
 
   // Code taken from https://developers.google.com/maps/documentation/javascript/examples/places-searchbox
   // Create the search box and link it to the UI element.
@@ -48,6 +58,8 @@ function drawMap() {
     if (places.length == 0) {
       return;
     }
+
+    toolbarReset();
 
     // Clear out the old markers.
     markers.forEach(function(marker) {
@@ -85,7 +97,95 @@ function drawMap() {
         bounds.extend(place.geometry.location);
       }
     });
+
     map.fitBounds(bounds);
-    map.setZoom(13);
+    map.setZoom(12);
   });
 }
+
+//-----------------------Search for points of interest--------------------------
+
+function poiSearch() {
+  if (poi.checked) {
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+      location: map.getCenter(),
+      radius: 5000,
+      type: ['point_of_interest']
+    }, returnPoi);
+  } else {
+    for (var i = 0; i < poiMarkers.length; i++) {
+      poiMarkers[i].setMap(null);
+    }
+    poiMarkers = [];
+  }
+}
+
+function returnPoi(results, status) {
+  results.forEach(function(result) {
+    poiMarkers.push(new google.maps.Marker({
+      map: map,
+      position: result.geometry.location
+    }));
+  });
+}
+
+//-----------------------Search for points of interest--------------------------
+
+//-----------------------Search for accommodations--------------------------
+
+function accommodationsSearch() {
+  if (accommodations.checked) {
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+      location: map.getCenter(),
+      radius: 5000,
+      type: ['lodging']
+    }, returnAccomodations);
+  } else {
+    for (var i = 0; i < accommodationsMarkers.length; i++) {
+      accommodationsMarkers[i].setMap(null);
+    }
+    accommodationsMarkers = [];
+  }
+}
+
+function returnAccomodations(results, status) {
+  results.forEach(function(result) {
+    accommodationsMarkers.push(new google.maps.Marker({
+      map: map,
+      position: result.geometry.location
+    }));
+  });
+}
+
+//-----------------------Search for accommodations--------------------------
+
+//-----------------------Search for dining place--------------------------
+
+function diningSearch() {
+  if (dining.checked) {
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+      location: map.getCenter(),
+      radius: 5000,
+      type: ['restaurant']
+    }, returnDining);
+  } else {
+    for (var i = 0; i < diningMarkers.length; i++) {
+      diningMarkers[i].setMap(null);
+    }
+    diningMarkers = [];
+  }
+}
+
+function returnDining(results, status) {
+  results.forEach(function(result) {
+    diningMarkers.push(new google.maps.Marker({
+      map: map,
+      position: result.geometry.location
+    }));
+  });
+}
+
+//-----------------------Search for dining place--------------------------

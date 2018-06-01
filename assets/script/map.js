@@ -4,6 +4,24 @@ var poi = document.getElementById('poi');
 var accommodations = document.getElementById('accommodations');
 var dining = document.getElementById('dining');
 
+//Place type consstant for each button in toolbar
+const poi_type = [
+  'amusement_park',
+  'aquarium',
+  'art_gallery',
+  'casino',
+  'church',
+  'museum',
+  'night_club',
+  'park',
+  'shopping_mall',
+  'spa',
+  'stadium',
+  'zoo'
+];
+const accommodations_type = ['lodging'];
+const dining_type = ['restaurant', 'bar', 'cafe'];
+
 var poiMarkers = [];
 var accommodationsMarkers = [];
 var diningMarkers = [];
@@ -111,7 +129,7 @@ function poiSearch() {
     service.nearbySearch({
       location: map.getCenter(),
       radius: 5000,
-      type: ['point_of_interest']
+      type: poi_type
     }, returnPoi);
   } else {
     for (var i = 0; i < poiMarkers.length; i++) {
@@ -139,8 +157,8 @@ function accommodationsSearch() {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
       location: map.getCenter(),
-      radius: 5000,
-      type: ['lodging']
+      radius: radius,
+      type: accommodations_type
     }, returnAccomodations);
   } else {
     for (var i = 0; i < accommodationsMarkers.length; i++) {
@@ -168,8 +186,8 @@ function diningSearch() {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
       location: map.getCenter(),
-      radius: 5000,
-      type: ['restaurant']
+      radius: radius,
+      type: dining_type
     }, returnDining);
   } else {
     for (var i = 0; i < diningMarkers.length; i++) {
@@ -189,3 +207,46 @@ function returnDining(results, status) {
 }
 
 //-----------------------Search for dining place--------------------------
+
+function placeSearch(searchID, placeType, resultsArray) {
+  if (searchID.checked) {
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+      location: map.getCenter(),
+      radius: radius,
+      type: placeType
+    }, returnSearch);
+  } else {
+    for (var i = 0; i < resultsArray.length; i++) {
+      resultsArray[i].setMap(null);
+    }
+    resultsArray = [];
+  }
+}
+
+function returnSearch(results, status) {
+  if (poi.checked) {
+    addMarkers(results, poiMarkers);
+  }
+  if (accommodations.checked) {
+    addMarkers(results, accommodationsMarkers);
+  }
+  if (dining.checked) {
+    addMarkers(results, diningMarkers);
+  }
+}
+
+function addMarkers(results, markerGroup) {
+  results.forEach(function(result) {
+    markerGroup.push(new google.maps.Marker({
+      map: map,
+      position: result.geometry.location
+    }));
+  });
+}
+
+function checkMarkers() {
+  console.log(poiMarkers);
+  console.log(accommodationsMarkers);
+  console.log(diningMarkers);
+}

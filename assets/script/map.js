@@ -22,6 +22,9 @@ const poi_type = [
 const accommodations_type = ['lodging'];
 const dining_type = ['restaurant', 'bar', 'cafe'];
 
+//Along with place type, radius has been declared as constant as well for easier parameter modification.
+const radius = 5000;
+
 var poiMarkers = [];
 var accommodationsMarkers = [];
 var diningMarkers = [];
@@ -73,11 +76,12 @@ function drawMap() {
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
+    toolbarReset();
+    resetMarkers();
+
     if (places.length == 0) {
       return;
     }
-
-    toolbarReset();
 
     // Clear out the old markers.
     markers.forEach(function(marker) {
@@ -121,94 +125,9 @@ function drawMap() {
   });
 }
 
-//-----------------------Search for points of interest--------------------------
+//-----------------------------Solution v2-------------------------------
 
-function poiSearch() {
-  if (poi.checked) {
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch({
-      location: map.getCenter(),
-      radius: 5000,
-      type: poi_type
-    }, returnPoi);
-  } else {
-    for (var i = 0; i < poiMarkers.length; i++) {
-      poiMarkers[i].setMap(null);
-    }
-    poiMarkers = [];
-  }
-}
-
-function returnPoi(results, status) {
-  results.forEach(function(result) {
-    poiMarkers.push(new google.maps.Marker({
-      map: map,
-      position: result.geometry.location
-    }));
-  });
-}
-
-//-----------------------Search for points of interest--------------------------
-
-//-----------------------Search for accommodations--------------------------
-
-function accommodationsSearch() {
-  if (accommodations.checked) {
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch({
-      location: map.getCenter(),
-      radius: radius,
-      type: accommodations_type
-    }, returnAccomodations);
-  } else {
-    for (var i = 0; i < accommodationsMarkers.length; i++) {
-      accommodationsMarkers[i].setMap(null);
-    }
-    accommodationsMarkers = [];
-  }
-}
-
-function returnAccomodations(results, status) {
-  results.forEach(function(result) {
-    accommodationsMarkers.push(new google.maps.Marker({
-      map: map,
-      position: result.geometry.location
-    }));
-  });
-}
-
-//-----------------------Search for accommodations--------------------------
-
-//-----------------------Search for dining place--------------------------
-
-function diningSearch() {
-  if (dining.checked) {
-    var service = new google.maps.places.PlacesService(map);
-    service.nearbySearch({
-      location: map.getCenter(),
-      radius: radius,
-      type: dining_type
-    }, returnDining);
-  } else {
-    for (var i = 0; i < diningMarkers.length; i++) {
-      diningMarkers[i].setMap(null);
-    }
-    diningMarkers = [];
-  }
-}
-
-function returnDining(results, status) {
-  results.forEach(function(result) {
-    diningMarkers.push(new google.maps.Marker({
-      map: map,
-      position: result.geometry.location
-    }));
-  });
-}
-
-//-----------------------Search for dining place--------------------------
-
-function placeSearch(searchID, placeType, resultsArray) {
+function placeSearch(searchID, placeType) {
   if (searchID.checked) {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
@@ -217,21 +136,24 @@ function placeSearch(searchID, placeType, resultsArray) {
       type: placeType
     }, returnSearch);
   } else {
-    for (var i = 0; i < resultsArray.length; i++) {
-      resultsArray[i].setMap(null);
+    if (searchID == poi) {
+      removeMarkers(poiMarkers);
+    } else if (searchID == accommodations) {
+      removeMarkers(accommodationsMarkers);
+    } else if (searchID == dining) {
+      removeMarkers(diningMarkers);
+    } else {
+      console.log("An error has occured in placeSearch function!");
     }
-    resultsArray = [];
   }
 }
 
 function returnSearch(results, status) {
-  if (poi.checked) {
+  if (poi.checked && poiMarkers.length == 0) {
     addMarkers(results, poiMarkers);
-  }
-  if (accommodations.checked) {
+  } else if (accommodations.checked && accommodationsMarkers.length == 0) {
     addMarkers(results, accommodationsMarkers);
-  }
-  if (dining.checked) {
+  } else if (dining.checked && diningMarkers.length == 0) {
     addMarkers(results, diningMarkers);
   }
 }
@@ -245,8 +167,27 @@ function addMarkers(results, markerGroup) {
   });
 }
 
-function checkMarkers() {
-  console.log(poiMarkers);
-  console.log(accommodationsMarkers);
-  console.log(diningMarkers);
+// Used to reset all markers when a new search for city takes place.
+function resetMarkers() {
+  poiMarkers = [];
+  accommodationsMarkers = [];
+  diningMarkers = [];
 }
+
+function removeMarkers(markerGroup) {
+  for (var i = 0; i < markerGroup.length; i++) {
+    markerGroup[i].setMap(null);
+  }
+  markerGroup = [];
+  if (!poi.checked && poiMarkers.length > 0) {
+    poiMarkers = markerGroup;
+  } else if (!accommodations.checked && accommodationsMarkers.length > 0) {
+    accommodationsMarkers = markerGroup;
+  } else if (!dining.checked && diningMarkers.length > 0) {
+    diningMarkers = markerGroup;
+  } else {
+    console.log("An error has occured in removeMarkers function!")
+  }
+}
+
+//-----------------------------Solution v2-------------------------------

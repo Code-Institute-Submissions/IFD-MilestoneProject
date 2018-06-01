@@ -3,6 +3,15 @@
 ### The aim of this Sing Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
 ### Update Log
+#### 01/06/2018
+- Nearby search code abstraction completed. The flow are as follows:
+  - In the first implementation, each button in the button group is linked to their individual set of codes (i.e. xxxxSearch and returnXXXX), however they are basically the same code with different parameters (i.e. different place types) so this calls for code abstraction.
+  - All 3 buttons now share the same function placeSearch for a starter. This function has 2 parameters: searchID and placeType. serachID is for identifying which button has been clicked and placeType is an array of place type related to the button clicked. placeType has been declared as a constant at the beginning of map.js
+  - The actual nearby search will only takes place when a button has been checked, otherwise the function will remove all the markers related to the button being unchecked (i.e. if tourist attractions button has been unchecked, all markers related to tourist attractions will be removed from the map).
+  - The call-back function for nearby search - returnSearch, checks which button has been clicked which button has been checked and calls addMarkers with corresponding parameters in order to display markers on the map.
+- Code has been written in a way such that more than 1 button can be checked at the same time and markers will reflect that by overlapping search results.
+- However, currently all markers used in nearby search are in default style. In order to avoid confusion a different icon will be used for each place type.
+
 #### 30/05/2018
 - Implemented nearby search. No abstraction has been done yet so there is a lot of repetitive code. Will look into it further.
 - Toolbar will be reset to default whenever new search for city occurs.

@@ -22,7 +22,7 @@
   <div class="jumbotron text-center">
     <h1 class="display-3">Ready for Your Next Holiday?</h1>
     <p class="lead" id="slogan">Get started by seacrhing for your favourite destination!</p>
-    <form class="form-inline my-2 my-lg-0 justify-content-center" action="#">
+    <form class="form-inline my-2 my-lg-0 justify-content-center" onsubmit="return false;">
       <input id="pac-input" class="form-control mr-sm-2" type="text" placeholder="Enter Your Favourite Destination Here!">
     </form>
   </div>
@@ -32,13 +32,13 @@
       <div class="mx-auto">
         <div id="toolbar" class="btn-group btn-group-toggle" data-toggle="buttons">
           <label class="toolbar-button btn btn-primary">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(poi, poi_type, poiMarkers)" id="poi">Tourist Attractions</input>
+            <input type="checkbox" autocomplete="off" onchange="placeSearch(poi, poi_type)" id="poi">Tourist Attractions</input>
           </label>
           <label class="toolbar-button btn btn-primary">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(accommodations, accommodations_type, accommodationsMarkers)" id="accommodations">Accommodations</input>
+            <input type="checkbox" autocomplete="off" onchange="placeSearch(accommodations, accommodations_type)" id="accommodations">Accommodations</input>
           </label>
           <label class="toolbar-button btn btn-primary">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(dining, dining_type, diningMarkers)" id="dining">Bars and Restaurants</input>
+            <input type="checkbox" autocomplete="off" onchange="placeSearch(dining, dining_type)" id="dining">Bars and Restaurants</input>
           </label>
         </div>
       </div>

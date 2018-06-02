@@ -29,6 +29,10 @@ var poiMarkers = [];
 var accommodationsMarkers = [];
 var diningMarkers = [];
 
+var poi_pin = 'assets/icon/poi_pin.png';
+var accommodations_pin = 'assets/icon/accommodations_pin.png';
+var dining_pin = 'assets/icon/dining_pin.png';
+
 //Default center position (London)
 var lat = 51.508742;
 var lng = -0.120850;
@@ -149,20 +153,27 @@ function placeSearch(searchID, placeType) {
 }
 
 function returnSearch(results, status) {
-  if (poi.checked && poiMarkers.length == 0) {
-    addMarkers(results, poiMarkers);
-  } else if (accommodations.checked && accommodationsMarkers.length == 0) {
-    addMarkers(results, accommodationsMarkers);
-  } else if (dining.checked && diningMarkers.length == 0) {
-    addMarkers(results, diningMarkers);
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    if (poi.checked && poiMarkers.length == 0) {
+      addMarkers(results, poiMarkers, poi_pin);
+    } else if (accommodations.checked && accommodationsMarkers.length == 0) {
+      addMarkers(results, accommodationsMarkers, accommodations_pin);
+    } else if (dining.checked && diningMarkers.length == 0) {
+      addMarkers(results, diningMarkers, dining_pin);
+    }
+  } else {
+    alret("Current service status is ", status, ". Please try again later.");
   }
 }
 
-function addMarkers(results, markerGroup) {
+//If no pinType has been specified, default marker will be used
+function addMarkers(results, markerGroup, pinType) {
   results.forEach(function(result) {
     markerGroup.push(new google.maps.Marker({
       map: map,
-      position: result.geometry.location
+      position: result.geometry.location,
+      title: result.name,
+      icon: pinType
     }));
   });
 }

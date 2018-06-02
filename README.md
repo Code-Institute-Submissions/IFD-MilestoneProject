@@ -3,6 +3,9 @@
 ### The aim of this Sing Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
 ### Update Log
+#### 02/06/2018
+- Different marker icon for different place type has been implemented. They are basically the same shape but with different colours. In order to adapt to this design, buttons in toolbar has their colours changed according to their related icon.
+
 #### 01/06/2018
 - Nearby search code abstraction completed. The flow are as follows:
   - In the first implementation, each button in the button group is linked to their individual set of codes (i.e. xxxxSearch and returnXXXX), however they are basically the same code with different parameters (i.e. different place types) so this calls for code abstraction.

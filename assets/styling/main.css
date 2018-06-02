@@ -10,22 +10,10 @@
     margin-bottom: 5px;
 }
 
-#toolbar-2 {
-    display: none;
-}
-
 /*----------------------------------------media query*/
 
 @media(min-width:576px) {
     .form-inline .form-control {
         width: 50%; /*Overriding witdth: auto in original styling for larger screens*/
-    }
-    
-    #toolbar-1 {
-        display: none;
-    }
-    
-    #toolbar-2 {
-        display: block;
     }
 }

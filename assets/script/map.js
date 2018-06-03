@@ -1,3 +1,5 @@
+const apiKey = 'AIzaSyDWbbDURuiYEUVmvnTRol3xbTq4BDuK5aE';
+
 var map;
 
 var poi = document.getElementById('poi');
@@ -5,22 +7,9 @@ var accommodations = document.getElementById('accommodations');
 var dining = document.getElementById('dining');
 
 //Place type consstant for each button in toolbar
-const poi_type = [
-  'amusement_park',
-  'aquarium',
-  'art_gallery',
-  'casino',
-  'church',
-  'museum',
-  'night_club',
-  'park',
-  'shopping_mall',
-  'spa',
-  'stadium',
-  'zoo'
-];
+const poi_type = ['point_of_interest'];
 const accommodations_type = ['lodging'];
-const dining_type = ['restaurant', 'bar', 'cafe'];
+const dining_type = ['restaurant'];
 
 //Along with place type, radius has been declared as constant as well for easier parameter modification.
 const radius = 5000;
@@ -129,8 +118,6 @@ function drawMap() {
   });
 }
 
-//-----------------------------Solution v2-------------------------------
-
 function placeSearch(searchID, placeType) {
   if (searchID.checked) {
     var service = new google.maps.places.PlacesService(map);
@@ -146,8 +133,6 @@ function placeSearch(searchID, placeType) {
       removeMarkers(accommodationsMarkers);
     } else if (searchID == dining) {
       removeMarkers(diningMarkers);
-    } else {
-      console.log("An error has occured in placeSearch function!");
     }
   }
 }
@@ -156,10 +141,13 @@ function returnSearch(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     if (poi.checked && poiMarkers.length == 0) {
       addMarkers(results, poiMarkers, poi_pin);
+      setInfoWindows(results, poiMarkers);
     } else if (accommodations.checked && accommodationsMarkers.length == 0) {
       addMarkers(results, accommodationsMarkers, accommodations_pin);
+      setInfoWindows(results, accommodationsMarkers);
     } else if (dining.checked && diningMarkers.length == 0) {
       addMarkers(results, diningMarkers, dining_pin);
+      setInfoWindows(results, diningMarkers);
     }
   } else {
     alret("Current service status is ", status, ". Please try again later.");
@@ -167,38 +155,81 @@ function returnSearch(results, status) {
 }
 
 //If no pinType has been specified, default marker will be used
+//Clicking on marker will open info window, only 1 info can be opened at a time.
 function addMarkers(results, markerGroup, pinType) {
   results.forEach(function(result) {
     markerGroup.push(new google.maps.Marker({
       map: map,
       position: result.geometry.location,
       title: result.name,
-      icon: pinType
+      icon: pinType,
     }));
   });
 }
 
+function setInfoWindows(results, markerGroup) {
+  for (var i = 0; i < markerGroup.length; i++) {
+    markerGroup[i].infoWindow = new google.maps.InfoWindow;
+
+    const location = markerGroup[i].position.lat() + ',' + markerGroup[i].position.lng();
+    const param = 'size=200x120' + '&location=' + location;
+    const url = 'https://maps.googleapis.com/maps/api/streetview?' + param + '&key=' + apiKey;
+    const content = '<img class="info-img" src=' + url + ' />' +
+      '<div class="info-detail">' +
+      '<h3>' + markerGroup[i].title + '</h3>';
+
+    google.maps.event.addListener(markerGroup[i], 'click', function() {
+      closeInfoWindows();
+      getAddress(this.position, content, this);
+    });
+  }
+}
+
+function getAddress(location, content, target) {
+  var geocoder = new google.maps.Geocoder;
+
+  geocoder.geocode({
+    'location': location
+  }, function(results, status) {
+    if (status === 'OK') {
+      var info = content + '<p>' + results[0].formatted_address + '</p>' + '</div>';
+      target.infoWindow.setContent(info);
+      target.infoWindow.open(map, target);
+    } else {
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+function closeInfoWindows() {
+  for (var i = 0; i < poiMarkers.length; i++) {
+    poiMarkers[i].infoWindow.close();
+  }
+  for (var i = 0; i < accommodationsMarkers.length; i++) {
+    accommodationsMarkers[i].infoWindow.close();
+  }
+  for (var i = 0; i < diningMarkers.length; i++) {
+    diningMarkers[i].infoWindow.close();
+  }
+}
+
 // Used to reset all markers when a new search for city takes place.
 function resetMarkers() {
-  poiMarkers = [];
-  accommodationsMarkers = [];
-  diningMarkers = [];
+  removeMarkers(poiMarkers);
+  removeMarkers(accommodationsMarkers);
+  removeMarkers(diningMarkers);
 }
 
 function removeMarkers(markerGroup) {
   for (var i = 0; i < markerGroup.length; i++) {
     markerGroup[i].setMap(null);
   }
-  markerGroup = [];
+  markerGroup.length = 0;
   if (!poi.checked && poiMarkers.length > 0) {
     poiMarkers = markerGroup;
   } else if (!accommodations.checked && accommodationsMarkers.length > 0) {
     accommodationsMarkers = markerGroup;
   } else if (!dining.checked && diningMarkers.length > 0) {
     diningMarkers = markerGroup;
-  } else {
-    console.log("An error has occured in removeMarkers function!")
   }
 }
-
-//-----------------------------Solution v2-------------------------------

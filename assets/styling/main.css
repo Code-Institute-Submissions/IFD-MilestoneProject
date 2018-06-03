@@ -10,6 +10,21 @@
     margin-bottom: 5px;
 }
 
+.info-img{
+  float: left;
+  padding: 5px;
+}
+
+.info-detail {
+  float: right;
+  width: 200px;
+  padding: 5px;
+}
+
+.info-detail h3 {
+  text-align: center;
+}
+
 /*----------------------------------------media query*/
 
 @media(min-width:576px) {

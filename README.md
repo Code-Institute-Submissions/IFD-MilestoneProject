@@ -3,6 +3,9 @@
 ### The aim of this Sing Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
 ### Update Log
+#### 05/06/2018
+- Adding comments to scripts for better readability.
+
 #### 03/06/2018
 - Info window has been added to the markers so now when user click on the markers a info window will pop up and provide them with additional information about the marked place such as name and address.
 

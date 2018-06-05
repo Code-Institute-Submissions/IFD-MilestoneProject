@@ -29,6 +29,6 @@
 
 @media(min-width:576px) {
     .form-inline .form-control {
-        width: 50%; /*Overriding witdth: auto in original styling for larger screens*/
+        width: 50%; /*Overriding width: auto in original styling for larger screens*/
     }
 }

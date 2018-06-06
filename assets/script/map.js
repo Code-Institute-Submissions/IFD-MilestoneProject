@@ -70,6 +70,7 @@ function drawMap() {
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
+    //Reset UI to default state (all buttons in toolbar are unchecked and no markers on map).
     toolbarReset();
     resetMarkers();
 
@@ -222,7 +223,8 @@ function getAddress(location, content, target) {
 }
 //End of chained function---------------------------------------------
 
-//Close all info window. This is called before
+//Close all info window currently opened. This is called before attempting to open a new info window (i.e. clicking on a marker that does not have
+// its info window opened when there other info window already opened on the map).
 function closeInfoWindows() {
   for (var i = 0; i < poiMarkers.length; i++) {
     poiMarkers[i].infoWindow.close();

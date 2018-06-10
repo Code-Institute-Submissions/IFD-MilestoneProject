@@ -2,6 +2,9 @@ const apiKey = 'AIzaSyDWbbDURuiYEUVmvnTRol3xbTq4BDuK5aE';
 
 var map;
 
+var slider = document.getElementById("range-slider");
+var circle = [];
+
 var poi = document.getElementById('poi');
 var accommodations = document.getElementById('accommodations');
 var dining = document.getElementById('dining');
@@ -10,9 +13,6 @@ var dining = document.getElementById('dining');
 const poi_type = ['point_of_interest'];
 const accommodations_type = ['lodging'];
 const dining_type = ['restaurant'];
-
-//Along with place type, radius has been declared as constant as well for easier parameter modification.
-const radius = 5000;
 
 var poiMarkers = [];
 var accommodationsMarkers = [];
@@ -26,7 +26,7 @@ var dining_pin = 'assets/icon/dining_pin.png';
 //Default center position (London)
 var lat = 51.508742;
 var lng = -0.120850;
-var zoom = 6;
+var zoom = 15;
 
 function defaultLocation() {
   // If user premits use of geolocation, the map will be centered based on that, otherwise map will be rendered with default values.
@@ -35,7 +35,7 @@ function defaultLocation() {
       function(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
-        zoom = 13; // Applies higher zoom if user allows geolocations for a more relavent view to the user.
+        zoom = 15;
         drawMap();
       },
 
@@ -70,8 +70,7 @@ function drawMap() {
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
-    toolbarReset();
-    resetMarkers();
+    resetUI();
 
     if (places.length == 0) {
       return;
@@ -116,8 +115,44 @@ function drawMap() {
     //End of referenced code.
 
     map.fitBounds(bounds);
-    map.setZoom(12);
+    map.setZoom(15);
   });
+}
+
+//Visualize search radius on map.
+function showSearchRadius() {
+  clearCircle();
+  circle.push(new google.maps.Circle({
+    map: map,
+    center: map.getCenter(),
+    radius: parseInt(slider.value),
+    strokeColor: "#99C0FF",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#99C0FF",
+    fillOpacity: 0.4
+  }));
+}
+
+//Clear any existing circles on the map.
+function clearCircle() {
+  for (var i = 0; i < circle.length; i++) {
+    circle[i].setMap(null);
+  }
+  circle.length = 0;
+}
+
+slider.oninput = function() {
+  $("#slider-info").html(slider.value + "m");
+  showSearchRadius();
+  resetMarkers();
+  if (poi.checked) {
+    placeSearch(poi, poi_type);
+  } else if (accommodations.checked) {
+    placeSearch(accommodations, accommodations_type);
+  } else if (dining.checked) {
+    placeSearch(dining, dining_type);
+  }
 }
 
 //Checks which button in the toolbar has been clicked(checked) and performs a nearby search with corresponding place type.
@@ -127,10 +162,11 @@ function placeSearch(searchID, placeType) {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
       location: map.getCenter(),
-      radius: radius,
+      radius: parseInt(slider.value),
       type: placeType
     }, returnSearch);
   } else {
+    clearCircle();
     if (searchID == poi) {
       removeMarkers(poiMarkers);
     } else if (searchID == accommodations) {
@@ -146,6 +182,7 @@ function placeSearch(searchID, placeType) {
 // warned with a pop up message.
 function returnSearch(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
+    showSearchRadius();
     if (poi.checked && poiMarkers.length == 0) {
       addMarkers(results, poiMarkers, poi_pin);
       setInfoWindows(results, poiMarkers);
@@ -157,7 +194,8 @@ function returnSearch(results, status) {
       setInfoWindows(results, diningMarkers);
     }
   } else {
-    alret("Current service status is ", status, ". Please try again later.");
+    resetUI();
+    alert("Search has failed due to service status: " + status);
   }
 }
 
@@ -222,7 +260,7 @@ function getAddress(location, content, target) {
 }
 //End of chained function---------------------------------------------
 
-//Close all info window. This is called before
+//Close all info window. This is called before user opens another info window to make sure only one info window is opened at a time.
 function closeInfoWindows() {
   for (var i = 0; i < poiMarkers.length; i++) {
     poiMarkers[i].infoWindow.close();
@@ -250,9 +288,29 @@ function removeMarkers(markerGroup) {
   }
 }
 
-// Used to reset all markers when a new search for city takes place.
+// Used to remove all markers at once.
 function resetMarkers() {
   removeMarkers(poiMarkers);
   removeMarkers(accommodationsMarkers);
   removeMarkers(diningMarkers);
+}
+
+//Reset toolbar state.
+function resetToolbarState() {
+  poi.checked = false;
+  accommodations.checked = false;
+  dining.checked = false;
+}
+
+//Completely resets toolbar (both in terms of UI and its actual state).
+function toolbarReset() {
+  resetToolbarState();
+  resetToolbarUI();
+}
+
+//Calling a set of functions as a standard method for completely resetting UI.
+function resetUI() {
+  toolbarReset();
+  resetMarkers();
+  clearCircle();
 }

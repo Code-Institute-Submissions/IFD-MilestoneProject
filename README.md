@@ -2,7 +2,13 @@
 
 ### The aim of this Sing Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
-### Update Log
+### Change Log
+#### 10/06/2018
+- Added adjustable search radius functionality.
+  - Previously place search radius is a constant but in order to give user more control over search criteria, search radius can now be controlled by user in the form of a slider.
+  - To give user a better understanding over this new feature, a circle will now show on map as a visualization to search radius. The circle will change size dynamically when user move the slider.
+  - Place search result will also update accordingly whenever user changes search radius.
+
 #### 05/06/2018
 - Adding comments to scripts for better readability.
 

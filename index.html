@@ -21,7 +21,7 @@
 
   <div class="jumbotron text-center">
     <h1 class="display-3">Ready for Your Next Holiday?</h1>
-    <p class="lead" id="slogan">Get started by seacrhing for your favourite destination!</p>
+    <p class="lead" id="slogan">Get started by searching for your favourite destination!</p>
     <form class="form-inline my-2 my-lg-0 justify-content-center" onsubmit="return false;">
       <input id="pac-input" class="form-control mr-sm-2" type="text" placeholder="Enter Your Favourite Destination Here!">
     </form>
@@ -43,10 +43,15 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <p id="slider-header">Adjust search radius using the slider below.<br>Current search radius: <span id="slider-info">500m</span></p>
+      <div class="slider-container">
+        <input type="range" min="100" max="1000" value="500" step="100" id="range-slider">
+      </div>
+    </div>
   </div>
 
   <div id="map"></div>
-
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

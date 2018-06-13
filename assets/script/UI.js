@@ -1,3 +1,7 @@
+var slider = document.getElementById("range-slider");
+var poiFlag = document.getElementsByClassName("poi-flag");
+var poiOptions = [];
+
 //Responsive design implemented by dynamically changing class that governs the layout of toolbar.
 $(window).resize(function() {
   if ($(window).width() < 576) {
@@ -14,28 +18,63 @@ function resetToolbarUI() {
   $('.toolbar-button').removeClass('active');
 }
 
-var options = [];
+function clearDropDownMenu(){
+  poiOptions.length = 0;
+  for (var i = 0; i < poiFlag.length; i++) {
+    poiFlag[i].checked = false;
+  }
+}
+
+//Completely resets toolbar (both in terms of UI and its actual state).
+function resetToolbar() {
+  resetToolbarState();
+  resetToolbarUI();
+  clearDropDownMenu();
+}
+
+//Calling a set of functions as a standard method for completely resetting UI.
+function resetUI() {
+  slider.value = 500;
+  sliderValue();
+  resetToolbar();
+  resetMarkers();
+  clearCircle();
+}
+
+function sliderValue() {
+  $("#slider-info").html(slider.value + "m");
+}
+
+slider.oninput = function() {
+  sliderValue();
+  updateSearch();
+}
 
 //Code taken from https://codepen.io/bseth99/pen/fboKH
-$( '.dropdown-menu a' ).on( 'click', function( event ) {
+$('.dropdown-menu a').on('click', function(event) {
 
-   var $target = $( event.currentTarget ),
-       val = $target.attr( 'data-value' ),
-       $inp = $target.find( 'input' ),
-       idx;
+  var $target = $(event.currentTarget),
+    val = $target.attr('data-value'),
+    $inp = $target.find('input'),
+    idx;
 
-   if ( ( idx = options.indexOf( val ) ) > -1 ) {
-      options.splice( idx, 1 );
-      setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
-   } else {
-      options.push( val );
-      setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
-   }
+  if ((idx = poiOptions.indexOf(val)) > -1) {
+    poiOptions.splice(idx, 1);
+    setTimeout(function() {
+      $inp.prop('checked', false)
+    }, 0);
+  } else {
+    poiOptions.push(val);
+    setTimeout(function() {
+      $inp.prop('checked', true)
+    }, 0);
+  }
 
-   $( event.target ).blur();
+  $(event.target).blur();
 
-   console.log( options );
-   return false;
+  poiSearch(poiOptions);
+
+  return false;
 });
 
 //End of referenced code.

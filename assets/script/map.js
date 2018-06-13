@@ -166,13 +166,17 @@ function placeSearch(searchID, placeType) {
       type: placeType
     }, returnSearch);
   } else {
-    clearCircle();
     if (searchID == poi) {
       removeMarkers(poiMarkers);
     } else if (searchID == accommodations) {
       removeMarkers(accommodationsMarkers);
     } else if (searchID == dining) {
       removeMarkers(diningMarkers);
+    }
+
+    //Only removes circle when no option has been selected.
+    if (!poi.checked && !accommodations.checked && !dining.checked) {
+      clearCircle();
     }
   }
 }

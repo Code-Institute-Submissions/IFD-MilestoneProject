@@ -59,6 +59,10 @@ function drawMap() {
     searchBox.setBounds(map.getBounds());
   });
 
+  map.addListener('center_changed', function() {
+    resetUI();
+  })
+
   var markers = [];
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.

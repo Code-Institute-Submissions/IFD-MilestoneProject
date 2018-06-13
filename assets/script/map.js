@@ -148,9 +148,11 @@ slider.oninput = function() {
   resetMarkers();
   if (poi.checked) {
     placeSearch(poi, poi_type);
-  } else if (accommodations.checked) {
+  }
+  if (accommodations.checked) {
     placeSearch(accommodations, accommodations_type);
-  } else if (dining.checked) {
+  }
+  if (dining.checked) {
     placeSearch(dining, dining_type);
   }
 }

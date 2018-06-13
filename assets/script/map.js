@@ -10,11 +10,9 @@ var accommodations = document.getElementById('accommodations');
 var dining = document.getElementById('dining');
 
 //Place type constant for each button in toolbar
-const poi_type = ['point_of_interest'];
 const accommodations_type = ['lodging'];
 const dining_type = ['restaurant'];
 
-var poiMarkers = [];
 var accommodationsMarkers = [];
 var diningMarkers = [];
 
@@ -146,9 +144,7 @@ slider.oninput = function() {
   $("#slider-info").html(slider.value + "m");
   showSearchRadius();
   resetMarkers();
-  if (poi.checked) {
-    placeSearch(poi, poi_type);
-  } else if (accommodations.checked) {
+  if (accommodations.checked) {
     placeSearch(accommodations, accommodations_type);
   } else if (dining.checked) {
     placeSearch(dining, dining_type);
@@ -183,10 +179,7 @@ function placeSearch(searchID, placeType) {
 function returnSearch(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     showSearchRadius();
-    if (poi.checked && poiMarkers.length == 0) {
-      addMarkers(results, poiMarkers, poi_pin);
-      setInfoWindows(results, poiMarkers);
-    } else if (accommodations.checked && accommodationsMarkers.length == 0) {
+    if (accommodations.checked && accommodationsMarkers.length == 0) {
       addMarkers(results, accommodationsMarkers, accommodations_pin);
       setInfoWindows(results, accommodationsMarkers);
     } else if (dining.checked && diningMarkers.length == 0) {
@@ -262,9 +255,6 @@ function getAddress(location, content, target) {
 
 //Close all info window. This is called before user opens another info window to make sure only one info window is opened at a time.
 function closeInfoWindows() {
-  for (var i = 0; i < poiMarkers.length; i++) {
-    poiMarkers[i].infoWindow.close();
-  }
   for (var i = 0; i < accommodationsMarkers.length; i++) {
     accommodationsMarkers[i].infoWindow.close();
   }
@@ -279,9 +269,7 @@ function removeMarkers(markerGroup) {
     markerGroup[i].setMap(null);
   }
   markerGroup.length = 0;
-  if (!poi.checked && poiMarkers.length > 0) {
-    poiMarkers = markerGroup;
-  } else if (!accommodations.checked && accommodationsMarkers.length > 0) {
+  if (!accommodations.checked && accommodationsMarkers.length > 0) {
     accommodationsMarkers = markerGroup;
   } else if (!dining.checked && diningMarkers.length > 0) {
     diningMarkers = markerGroup;
@@ -297,7 +285,6 @@ function resetMarkers() {
 
 //Reset toolbar state.
 function resetToolbarState() {
-  poi.checked = false;
   accommodations.checked = false;
   dining.checked = false;
 }

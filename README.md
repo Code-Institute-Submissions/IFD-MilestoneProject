@@ -8,6 +8,7 @@
   - Added a button for removing all markers and search radius circle in one go. With this addition the UI will not reset when map center is changed.
 - Important!
   - Merging poi v2 to master.
+
 #### 13/06/2018 14:46
 - poi v2:
   - Poi v2 should now be functional.

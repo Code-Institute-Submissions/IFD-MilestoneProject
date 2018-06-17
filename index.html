@@ -31,16 +31,27 @@
     <div class="row">
       <div class="mx-auto">
         <div id="toolbar" class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="toolbar-button btn btn-primary">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(poi, poi_type)" id="poi">Tourist Attractions</input>
-          </label>
+          <div id="poi-toolbar" class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Tourist Attractions</button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" class="poi-option" data-value="amusement_park"><input type="checkbox" class="poi-flag"/>Amusement Park</a></li>
+              <li><a href="#" class="poi-option" data-value="aquarium"><input type="checkbox" class="poi-flag"/>Aquarium</a></li>
+              <li><a href="#" class="poi-option" data-value="art_gallery"><input type="checkbox" class="poi-flag"/>Art Gallery</a></li>
+              <li><a href="#" class="poi-option" data-value="casino"><input type="checkbox" class="poi-flag"/>Casino</a></li>
+              <li><a href="#" class="poi-option" data-value="museum"><input type="checkbox" class="poi-flag"/>Museum</a></li>
+              <li><a href="#" class="poi-option" data-value="shopping_mall"><input type="checkbox" class="poi-flag"/>Shopping Mall</a></li>
+              <li><a href="#" class="poi-option" data-value="stadium"><input type="checkbox" class="poi-flag"/>Stadium</a></li>
+              <li><a href="#" class="poi-option" data-value="zoo"><input type="checkbox" class="poi-flag"/>Zoo</a></li>
+            </ul>
+          </div>
           <label class="toolbar-button btn btn-success">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(accommodations, accommodations_type)" id="accommodations">Accommodations</input>
+            <input type="checkbox" autocomplete="off" onchange="nonPOISearch(accommodations)" id="accommodations">Accommodations</input>
           </label>
           <label class="toolbar-button btn btn-warning">
-            <input type="checkbox" autocomplete="off" onchange="placeSearch(dining, dining_type)" id="dining">Bars and Restaurants</input>
+            <input type="checkbox" autocomplete="off" onchange="nonPOISearch(dining)" id="dining">Bars and Restaurants</input>
           </label>
         </div>
+        <button class="btn btn-secondary" id="resetButton">Reset Marker</button>
       </div>
     </div>
     <div class="row">

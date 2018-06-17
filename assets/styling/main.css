@@ -72,6 +72,19 @@
   cursor: pointer;
 }
 
+ul li {
+  padding-left: 10px;
+  ;
+}
+
+ul .poi-option {
+  text-decoration: none;
+}
+
+ul .poi-option:hover{
+  background-color: rgba(138, 138, 138, 0.5);
+}
+
 /*----------------------------------------media query*/
 
 @media(min-width:576px) {

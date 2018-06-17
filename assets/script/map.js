@@ -141,16 +141,6 @@ function clearCircle() {
 function updateSearch() {
   showSearchRadius();
   resetMarkers();
-<<<<<<< HEAD
-  if (poi.checked) {
-    placeSearch(poi, poi_type);
-  }
-  if (accommodations.checked) {
-    placeSearch(accommodations, accommodations_type);
-  }
-  if (dining.checked) {
-    placeSearch(dining, dining_type);
-=======
   resetToolbar();
 }
 
@@ -166,7 +156,6 @@ function poiSearch(poiOptions) {
   } else {
     removeMarkers(poiMarkers);
     poiMarkers = [];
->>>>>>> poi-v2
   }
 }
 
@@ -186,13 +175,7 @@ function nonPOISearch(searchID) {
   if (searchID.checked) {
     placeSearch(pType);
   } else {
-<<<<<<< HEAD
-    if (searchID == poi) {
-      removeMarkers(poiMarkers);
-    } else if (searchID == accommodations) {
-=======
     if (searchID == accommodations) {
->>>>>>> poi-v2
       removeMarkers(accommodationsMarkers);
       accommodationsMarkers = [];
     } else if (searchID == dining) {

@@ -41,6 +41,10 @@ function resetUI() {
   clearCircle();
 }
 
+document.getElementById("resetButton").addEventListener("click", function() {
+  resetUI();
+})
+
 function sliderValue() {
   $("#slider-info").html(slider.value + "m");
 }

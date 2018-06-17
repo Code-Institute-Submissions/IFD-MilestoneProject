@@ -3,11 +3,16 @@
 ### The aim of this Sing Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
 ### Change Log
+#### 17/06/2018
+- poi v2:
+  - Added a button for removing all markers and search radius circle in one go. With this addition the UI will not reset when map center is changed.
+- Important!
+  - Merging poi v2 to master.
 #### 13/06/2018 14:46
 - poi v2:
   - Poi v2 should now be functional.
   - Dynamic update of place search (see [link](#20180610)) did not work as intended with the implementation of poi v2 (markers did not update correctly). As a work-around, map will clear all markers on map when users move the slider so they will have to choose the search option again. Will need to test on master branch as well to see if this bug already exists before the implementation of poi v2.
-- UI will now rest when users map center has been changed.
+- UI will now rest when map center has been changed.
 
 #### 13/06/2018
 - Important: poi v2!

@@ -182,11 +182,6 @@ function nonPOISearch(searchID) {
       removeMarkers(diningMarkers);
       diningMarkers = [];
     }
-
-    //Only removes circle when no option has been selected.
-    if (!poi.checked && !accommodations.checked && !dining.checked) {
-      clearCircle();
-    }
   }
 }
 

@@ -3,14 +3,41 @@ var poiFlag = document.getElementsByClassName("poi-flag");
 var poiOptions = [];
 
 //Responsive design implemented by dynamically changing class that governs the layout of toolbar.
-$(window).resize(function() {
-  if ($(window).width() < 576) {
-    $('#toolbar').removeClass('btn-group');
-    $('#toolbar').addClass('btn-group-vertical');
-  } else {
-    $('#toolbar').removeClass('btn-group-vertical');
-    $('#toolbar').addClass('btn-group');
-  }
+$(document).ready(function(){
+    if($(window).height() > $(window).width()) {
+        $("#map").css("min-height", $(window).height() * 0.6);
+    } else {
+        $("#map").css("min-height", $(window).height() * 0.45);
+    }
+
+
+    $(window).resize(function() {
+      if ($(window).width() < 576) {
+        $('#toolbar').removeClass('btn-group');
+        $('#toolbar').addClass('btn-group-vertical');
+      } else {
+        $('#toolbar').removeClass('btn-group-vertical');
+        $('#toolbar').addClass('btn-group');
+      }
+    });
+
+    $("#toggleSearchBar").click(function(){
+        if($(".jumbotron").is(":visible")){
+            $(".jumbotron").hide();
+            if($(window).height() > $(window).width()) {
+                $("#map").height($(window).height() * 0.8);
+            } else {
+                $("#map").height($(window).height() * 0.75);
+            }
+        } else {
+            $(".jumbotron").show();
+            if($(window).height() > $(window).width()) {
+                $("#map").height($(window).height() * 0.6);
+            } else {
+                $("#map").height($(window).height() * 0.45);
+            }
+        }
+    });
 });
 
 //Unchecks all buttons in toolbar.

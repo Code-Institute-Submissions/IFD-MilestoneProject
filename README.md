@@ -1,68 +1,50 @@
 # Interactive Frontend Development Milestone project
+The aim of this project is to create a Single Page Application (SPA) that allows users to search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
 
-### The aim of this Single Page Application (SPA) is to allow users search for useful holiday information for a particular city such as tourist attractions, accommodations and restaurants. This SPA will be implemented using several APIs such as Google Maps and Geolocation.
+## UX
+Product of this project (i.e. the SPA mentioned above) is aimed for users who might be planning for a short holiday and would like to do some brief research regarding their destination and in some scenarios they might want to this the SPA whilst travelling. As such, UX focuses on usability of mobiles devices and simplicity for any users with any level of computer literacy. The two main user scenarios would be:
+1. User would like to search for points of interests (POI) of a place they are going to travel to soon. As such, they would enter the name of the said location in a search bar to search for the location on map first. They would then choose what kind of POI they would like to know more about, for example hotels or restaurants. Once they have chosen, those POIs will be revealed on the map as markers, at which point users can check out details of those markers such as address by tapping on them.
+2. Another use case is where users would like to search for POIs of their surroundings. In such case the flow is very similar to that of case 1, except users will have to click on a 'Use Current Location' button first to tell the application to search for users' current geolocation.
 
-### Change Log
-#### 17/06/2018
-- poi v2:
-  - Added a button for removing all markers and search radius circle in one go. With this addition the UI will not reset when map center is changed.
-- Important!
-  - Merging poi v2 to master.
+## Features
+Since the end product of this project has only a single feature so instead of describing that one feature this section will go deeper in describing the building block that made up this one feature. Most features mentioned below is part of [Google Maps API](https://developers.google.com/maps/documentation/).
+- Google Maps: the backbone of this SPA. The map used in this SPA is a simplified version of that in [Google Maps](https://www.google.com/maps) so a lot of features found in Google Maps is not available here. That said, basic map operations are still available such as zooming and panning.
+- Location Search: allows users to search for a location by typing the name in search bar. [Place Search Box](https://developers.google.com/maps/documentation/javascript/examples/places-searchbox) is used in particular to help user complete their inputs.
+- Current Location: using [Google Maps Geolocation API](https://developers.google.com/maps/documentation/javascript/examples/map-geolocation), users can re-centre the map using their current location.
+- Search Radius Adjustment: by combining basic html slide bar component map draw tool users are able to adjust and visualise the search radius.
+- POIs Search: another major building block of the SPA. It is represented as a toolbar above the map on the page. Users can pick and mix different options from the toolbar to search for different kinds of POIs available near the current centre of the map, whilst using search radius mention above to limit number of results returned.
 
-#### 13/06/2018 14:46
-- poi v2:
-  - Poi v2 should now be functional.
-  - Dynamic update of place search (see [link](#20180610)) did not work as intended with the implementation of poi v2 (markers did not update correctly). As a work-around, map will clear all markers on map when users move the slider so they will have to choose the search option again. Will need to test on master branch as well to see if this bug already exists before the implementation of poi v2.
-- UI will now rest when map center has been changed.
+## Technologies Used
+- [HTML](https://www.w3.org/html/), [CSS](https://www.w3.org/Style/CSS/), [JavaScript](https://www.javascript.com/)
+	- Languages used for this project.
+	- In particular JavaScript has been used exclusively for most of the logic in this project (i.e. consuming APIs).
+- [JQuery](https://jquery.com/)
+	- Simplifying DOM manipulation. In the scope of this project, it is required for some of the Bootstrap components to function properly.
+- [Bootstraps](https://getbootstrap.com/)
+    - Used in conjunction with custom CSS code to provide styling of html pages.
+    - [Cerulean](https://bootswatch.com/cerulean/) theme from Bootswatch has been used for this project.
+- [Google Maps API](https://developers.google.com/maps/documentation/)
+    - Most feature mentioned in section above comes from this API.
 
-#### 13/06/2018
-- Important: poi v2!
-  - Due to over generic results of place search using place type: point of interest for tourist attractions, a new solution will be implemented to counter that problem and the concepts are as follows:
-    - Whilst tourist attraction button remains almost the same appearance from user perspective, it will now function as a drop down menu instead of a button.
-    - From the drop down menu users can choose more specifically what type of tourist attraction they would like to search for.
-    - Search logic will be the same as before with the difference that more place type will be used instead of using point of interest place type.
-  - A new branch has been created for implementing poi v2.
-- Master branch:
-  - Minor bug fixes.
-  - Search radius circle will now be removed if and only if no option has been selected at all.
+## Testing
+Since this SPA mainly consumes API in terms of how it functions, elements that need testing are few in numbers. In other words, all tests needed are contained within user scenarios mentioned above, which are:
+- Location search:
+	- Users enter a location in the search, click on one of the candidate result and the map will re-centre to users' choice.
+	- Users enter a non-existent location and map will re-centre to a location closest to what users have entered in terms of name.
+- Place search:
+	- Users click on different options of POIs from toolbar and all results should be displayed at the same time.
+	- Users should be able to remove currently displayed results by toggling buttons from toolbar.
+	- A warning message should appear if no result is returned for a particular type of POI within search radius.
+- Adjusting search radius:
+	- When users move the slider a circle should appear on the map reflecting the search radius.
+	- No place search results should exist outside of the circle.
+Details of tests can be found in documentations stored in testing folder of this project.
 
-#### <a name="20180610"></a>10/06/2018
-- Added adjustable search radius functionality.
-  - Previously place search radius is a constant but in order to give user more control over search criteria, search radius can now be controlled by user in the form of a slider.
-  - To give user a better understanding over this new feature, a circle will now show on map as a visualization to search radius. The circle will change size dynamically when user move the slider.
-  - Place search result will also update accordingly whenever user changes search radius.
+### Responsive Design
+As mentioned in UX section, focus has been set on usability with mobile device and as such it is necessary to make sure the SPA is as responsive as possible.
+- Using a mobile-first approach design, the SPA has different layout depending on screen size. To be specific:
+    - The SPA uses a single column layout on mobile devices whilst component are laid out more evenly on large screens. For example, toolbar for selecting options for POIs is displayed vertically on mobile devices and horizontally on large screens.
+- Another thing to note is that since this is a single page application it would be a good idea to limit the scrolling needed. As such, height of the map will adjust automatically depending on screen size to maximise space available whilst keeping scrolling needed to a minimum.
 
-#### 05/06/2018
-- Adding comments to scripts for better readability.
-
-#### 03/06/2018
-- Info window has been added to the markers so now when user click on the markers a info window will pop up and provide them with additional information about the marked place such as name and address.
-
-#### 02/06/2018
-- Different marker icon for different place type has been implemented. They are basically the same shape but with different colours. In order to adapt to this design, buttons in toolbar has their colours changed according to their related icon.
-
-#### 01/06/2018
-- Nearby search code abstraction completed. The flow are as follows:
-  - In the first implementation, each button in the button group is linked to their individual set of codes (i.e. xxxxSearch and returnXXXX), however they are basically the same code with different parameters (i.e. different place types) so this calls for code abstraction.
-  - All 3 buttons now share the same function placeSearch for a starter. This function has 2 parameters: searchID and placeType. serachID is for identifying which button has been clicked and placeType is an array of place type related to the button clicked. placeType has been declared as a constant at the beginning of map.js
-  - The actual nearby search will only takes place when a button has been checked, otherwise the function will remove all the markers related to the button being unchecked (i.e. if tourist attractions button has been unchecked, all markers related to tourist attractions will be removed from the map).
-  - The call-back function for nearby search - returnSearch, checks which button has been clicked which button has been checked and calls addMarkers with corresponding parameters in order to display markers on the map.
-- Code has been written in a way such that more than 1 button can be checked at the same time and markers will reflect that by overlapping search results.
-- However, currently all markers used in nearby search are in default style. In order to avoid confusion a different icon will be used for each place type.
-
-#### 30/05/2018
-- Implemented nearby search. No abstraction has been done yet so there is a lot of repetitive code. Will look into it further.
-- Toolbar will be reset to default whenever new search for city occurs.
-
-#### 23/05/2018
-- Code for option toolbar has been improved for a more elegant implementation - JavaScript was used to adjust the layout of the toolbar (horizontal/ vertical) depending on screen size instead of having two separate pieces of code for each layout. This also prevents possible bug further in development when implementing actions to the toolbar.
-- Fall-back solution for geolocation (using London as centre point when page loads) has been fixed so it should work properly now.
-
-#### 19/05/2018
-- When page is loaded, the default centre of the map is now set to user's geolocation, provided users permit (a greater zoom will also be applied); otherwise the centre is set to London.
-- Place search functionality has been implemented with auto complete capability.
-
-
-#### 16/05/2018
-- User Interface implemented.
-- Map's default centre has been set to London; this will be changed to user's geolocation when corresponding code has been implemented.
+## Deployment
+The SPA has been hosted on [GitHub Pages](https://comacoma.github.io/IFD-MilestoneProject/). As far as this project is concerned, deployment model and development model are one and the same.

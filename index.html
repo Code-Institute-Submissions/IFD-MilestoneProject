@@ -2,74 +2,77 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!--Using Bootswatch: Cerulean as default styling-->
-  <link rel="stylesheet" href="assets/styling/bootstrap.min.css" type="text/css" />
-  <link rel="stylesheet" href="assets/styling/main.css" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Using Bootswatch: Cerulean as default styling-->
+    <link rel="stylesheet" href="assets/styling/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="assets/styling/main.css" type="text/css" />
 
-  <title>What's Next on Your Holiday?</title>
+    <title>What's Next on Your Holiday?</title>
 
 </head>
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">What's Next on Your Holiday?</a>
-  </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">What's Next on Your Holiday?</a>
+    </nav>
 
-  <div class="jumbotron text-center">
-    <h1 class="display-3">Ready for Your Next Holiday?</h1>
-    <p class="lead" id="slogan">Get started by searching for your favourite destination!</p>
-    <form class="form-inline my-2 my-lg-0 justify-content-center" onsubmit="return false;">
-      <input id="pac-input" class="form-control mr-sm-2" type="text" placeholder="Enter Your Favourite Destination Here!">
-    </form>
-  </div>
+    <div class="jumbotron text-center">
+        <h1 class="display-3">Ready for Your Next Holiday?</h1>
+        <p class="lead" id="slogan">Get started by searching for your favourite destination!</p>
+        <form class="justify-content-center" onsubmit="return false;">
+            <div class="row">
+                <input id="pac-input" class="form-control col-12 col-md-8" type="text" placeholder="Enter Your Favourite Destination Here!">
+                <button id="current-location" type="button" name="currentLocation" class="form-control btn btn-info col-12 col-md-4" onclick="defaultLocation()">Use Current Location</button>
+            </div>
+        </form>
+    </div>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="mx-auto">
-        <div id="toolbar" class="btn-group btn-group-toggle" data-toggle="buttons">
-          <div id="poi-toolbar" class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Tourist Attractions</button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#" class="poi-option" data-value="amusement_park"><input type="checkbox" class="poi-flag"/>Amusement Park</a></li>
-              <li><a href="#" class="poi-option" data-value="aquarium"><input type="checkbox" class="poi-flag"/>Aquarium</a></li>
-              <li><a href="#" class="poi-option" data-value="art_gallery"><input type="checkbox" class="poi-flag"/>Art Gallery</a></li>
-              <li><a href="#" class="poi-option" data-value="casino"><input type="checkbox" class="poi-flag"/>Casino</a></li>
-              <li><a href="#" class="poi-option" data-value="museum"><input type="checkbox" class="poi-flag"/>Museum</a></li>
-              <li><a href="#" class="poi-option" data-value="shopping_mall"><input type="checkbox" class="poi-flag"/>Shopping Mall</a></li>
-              <li><a href="#" class="poi-option" data-value="stadium"><input type="checkbox" class="poi-flag"/>Stadium</a></li>
-              <li><a href="#" class="poi-option" data-value="zoo"><input type="checkbox" class="poi-flag"/>Zoo</a></li>
-            </ul>
-          </div>
-          <label class="toolbar-button btn btn-success">
-            <input type="checkbox" autocomplete="off" onchange="nonPOISearch(accommodations)" id="accommodations">Accommodations</input>
-          </label>
-          <label class="toolbar-button btn btn-warning">
-            <input type="checkbox" autocomplete="off" onchange="nonPOISearch(dining)" id="dining">Bars and Restaurants</input>
-          </label>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="mx-auto">
+                <div id="toolbar" class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <div id="poi-toolbar" class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Tourist Attractions</button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" class="poi-option" data-value="amusement_park"><input type="checkbox" class="poi-flag" id="amusement_park" />Amusement Park</a></li>
+                            <li><a href="#" class="poi-option" data-value="aquarium"><input type="checkbox" class="poi-flag" />Aquarium</a></li>
+                            <li><a href="#" class="poi-option" data-value="art_gallery"><input type="checkbox" class="poi-flag" />Art Gallery</a></li>
+                            <li><a href="#" class="poi-option" data-value="casino"><input type="checkbox" class="poi-flag" />Casino</a></li>
+                            <li><a href="#" class="poi-option" data-value="museum"><input type="checkbox" class="poi-flag" />Museum</a></li>
+                            <li><a href="#" class="poi-option" data-value="shopping_mall"><input type="checkbox" class="poi-flag" />Shopping Mall</a></li>
+                            <li><a href="#" class="poi-option" data-value="stadium"><input type="checkbox" class="poi-flag" />Stadium</a></li>
+                            <li><a href="#" class="poi-option" data-value="zoo"><input type="checkbox" class="poi-flag" />Zoo</a></li>
+                        </ul>
+                    </div>
+                    <label class="toolbar-button btn btn-success">
+                        <input type="checkbox" autocomplete="off" onchange="nonPOISearch(accommodations)" id="accommodations">Accommodations</input>
+                    </label>
+                    <label class="toolbar-button btn btn-warning">
+                        <input type="checkbox" autocomplete="off" onchange="nonPOISearch(dining)" id="dining">Bars and Restaurants</input>
+                    </label>
+                </div>
+                <button class="btn btn-secondary" id="resetButton">Reset Marker</button>
+            </div>
         </div>
-        <button class="btn btn-secondary" id="resetButton">Reset Marker</button>
-      </div>
+        <div class="row">
+            <p id="slider-header">Adjust search radius using the slider below.<br>Current search radius: <span id="slider-info">500m</span></p>
+            <div class="slider-container">
+                <input type="range" min="100" max="1000" value="500" step="100" id="range-slider">
+            </div>
+        </div>
     </div>
-    <div class="row">
-      <p id="slider-header">Adjust search radius using the slider below.<br>Current search radius: <span id="slider-info">500m</span></p>
-      <div class="slider-container">
-        <input type="range" min="100" max="1000" value="500" step="100" id="range-slider">
-      </div>
-    </div>
-  </div>
 
-  <div id="map"></div>
+    <div id="map"></div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWbbDURuiYEUVmvnTRol3xbTq4BDuK5aE&libraries=places&callback=defaultLocation" async defer></script>
-  <script src="assets/script/map.js"></script>
-  <script src="assets/script/UI.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWbbDURuiYEUVmvnTRol3xbTq4BDuK5aE&libraries=places&callback=defaultLocation" async defer></script>
+    <script src="assets/script/map.js"></script>
+    <script src="assets/script/UI.js"></script>
 </body>
 
 </html>
